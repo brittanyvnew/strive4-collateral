@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trust Certificate Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Cinzel:wght@500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/src/styles.css">
+</head>
+<body data-view="edit">
+
+<header class="topbar">
+  <div class="brandline">
+    <p class="eyebrow">Strive4 sales tools</p>
+    <h1 class="apptitle">Trust Certificate <b>Studio</b></h1>
+  </div>
+  <div class="top-actions">
+    <button class="btn btn-secondary btn-sm" id="btnNext" title="Clear the customer name and issue a new certificate number"><span class="long-label">New for next customer</span><span class="short-label">Next customer</span></button>
+    <button class="btn btn-ghost btn-sm hide-sm" id="btnReset">Start over</button>
+  </div>
+</header>
+
+<main class="app">
+  <aside class="panel" aria-label="Certificate editor">
+    <div class="panel-scroll" id="panel">
+      <div class="tpl-current">
+        <div class="tpl-ico" id="curIco"></div>
+        <div class="txt"><div class="grp" id="curGrp"></div><div class="nm" id="curName"></div></div>
+        <button class="btn btn-secondary btn-sm" id="btnPick">Change</button>
+      </div>
+      <div class="saved-row">
+        <button class="btn btn-secondary btn-sm" id="btnSaveTpl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save as template</button>
+        <button class="btn btn-secondary btn-sm" id="btnMyTpl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>My templates<span class="count" id="myCount"></span></button>
+      </div>
+
+      <details class="sec" open>
+        <summary><span class="sec-num">01</span><span class="sec-title">Certificate details</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <div class="sec-body"><p class="sec-intro" id="tplDesc"></p><div class="grid" id="detailFields"></div></div>
+      </details>
+
+      <details class="sec">
+        <summary><span class="sec-num">02</span><span class="sec-title">Wording</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <div class="sec-body"><p class="sec-intro">Wording is written for you from the details above. Edit any line to make it your own, or reset it to the automatic version.</p><div class="grid" id="wordFields"></div></div>
+      </details>
+
+      <details class="sec">
+        <summary><span class="sec-num">03</span><span class="sec-title">Brand</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <div class="sec-body">
+          <div class="lbl" style="margin-bottom:8px">Logo</div>
+          <label class="drop" id="logoDrop">
+            <div class="logo-thumb" id="logoThumb"></div>
+            <div class="txt"><strong>Upload your logo</strong>PNG, JPG or SVG. A transparent background looks best. Stays in your browser.</div>
+            <input type="file" id="logoInput" accept="image/png,image/jpeg,image/svg+xml,image/webp" aria-label="Upload logo">
+          </label>
+          <div class="logo-actions" id="logoActions" hidden>
+            <button class="btn btn-secondary btn-sm" id="btnLogoColors">Use colors from logo</button>
+            <button class="btn btn-ghost btn-sm" id="btnLogoRemove">Remove logo</button>
+          </div>
+          <div class="grid" style="margin-top:16px">
+            <div class="field"><label for="b_name">Business name</label><input class="inp" id="b_name" data-scope="brand" data-k="name"></div>
+            <div class="field"><label for="b_tag">Tagline or credentials <span class="hint">Optional</span></label><input class="inp" id="b_tag" data-scope="brand" data-k="tagline" placeholder="Licensed and insured since 2009"></div>
+            <div class="field half"><label for="b_cur">Currency</label>
+              <select class="inp" id="b_cur" data-scope="brand" data-k="currency">
+                <option value="$">$ Dollar</option><option value="€">€ Euro</option><option value="£">£ Pound</option><option value="CA$">CA$ Canadian dollar</option><option value="A$">A$ Australian dollar</option><option value="₹">₹ Rupee</option><option value="¥">¥ Yen</option><option value="R">R Rand</option><option value="CHF ">CHF Franc</option>
+              </select></div>
+            <div class="field half"><label>Name beside logo</label><div class="seg" data-scope="brand" data-k="showName" data-bool="1"><button data-v="true">Show</button><button data-v="false">Hide</button></div></div>
+          </div>
+          <div class="subhead">Brand colors</div>
+          <div class="swatches" id="presets"></div>
+          <div class="colorrow">
+            <div class="colorfield"><span class="lbl">Primary</span><div class="colorbox"><input type="color" data-color="primary" aria-label="Primary color"><input type="text" data-colortext="primary" maxlength="7" aria-label="Primary hex"></div></div>
+            <div class="colorfield"><span class="lbl">Accent</span><div class="colorbox"><input type="color" data-color="accent" aria-label="Accent color"><input type="text" data-colortext="accent" maxlength="7" aria-label="Accent hex"></div></div>
+            <div class="colorfield"><span class="lbl">Text</span><div class="colorbox"><input type="color" data-color="ink" aria-label="Text color"><input type="text" data-colortext="ink" maxlength="7" aria-label="Text hex"></div></div>
+          </div>
+          <p class="hint" style="margin-top:10px">Text colors on the certificate are adjusted automatically when needed so they stay readable.</p>
+        </div>
+      </details>
+
+      <details class="sec">
+        <summary><span class="sec-num">04</span><span class="sec-title">Design and size</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <div class="sec-body">
+          <div class="lbl" style="margin-bottom:8px">Frame</div>
+          <div class="frames" id="frames"></div>
+          <div class="grid" style="margin-top:16px">
+            <div class="field"><label for="d_fonts">Typography</label>
+              <select class="inp" id="d_fonts" data-scope="design" data-k="fonts">
+                <option value="engraved">Engraved: Cinzel and script name</option>
+                <option value="editorial">Editorial: Playfair Display</option>
+                <option value="elegant">Elegant: Cormorant and script name</option>
+                <option value="modern">Modern: clean sans serif</option>
+              </select></div>
+            <div class="field half"><label for="d_size">Paper size</label>
+              <select class="inp" id="d_size" data-scope="design" data-k="size">
+                <option value="letter">US Letter</option><option value="a4">A4</option><option value="voucher">Voucher 8 × 3.5 in</option>
+              </select></div>
+            <div class="field half" id="orientField"><label>Orientation</label><div class="seg" data-scope="design" data-k="orient"><button data-v="landscape">Landscape</button><button data-v="portrait">Portrait</button></div></div>
+            <div class="field half"><label>Paper tone</label><div class="seg" data-scope="design" data-k="paper"><button data-v="white">White</button><button data-v="ivory">Ivory</button><button data-v="tint">Tint</button></div></div>
+            <div class="field half"><label>Date style</label><div class="seg" data-scope="design" data-k="dateStyle"><button data-v="us">Nov 11</button><button data-v="intl">11 Nov</button></div></div>
+          </div>
+          <div style="margin-top:12px">
+            <label class="toggle"><span>Security pattern<small>A fine guilloche watermark that is hard to copy</small></span><span class="switch"><input type="checkbox" data-scope="design" data-k="pattern"><span></span></span></label>
+            <label class="toggle"><span>Seal<small>An emblem in your brand colors</small></span><span class="switch"><input type="checkbox" data-scope="design" data-k="seal"><span></span></span></label>
+            <label class="toggle"><span>Verification QR code<small>Shown when a verification link is added in Sign-off</small></span><span class="switch"><input type="checkbox" data-scope="design" data-k="qr"><span></span></span></label>
+          </div>
+        </div>
+      </details>
+
+      <details class="sec">
+        <summary><span class="sec-num">05</span><span class="sec-title">Sign-off and contact</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <div class="sec-body">
+          <div class="grid">
+            <div class="field half"><label for="s_name">Signer name</label><input class="inp" id="s_name" data-scope="sign" data-k="name"></div>
+            <div class="field half"><label for="s_title">Signer title</label><input class="inp" id="s_title" data-scope="sign" data-k="title"></div>
+            <div class="field"><label>Signature</label>
+              <div class="seg" data-scope="sign" data-k="mode"><button data-v="typed">Typed</button><button data-v="draw">Draw</button><button data-v="upload">Upload</button><button data-v="none">None</button></div>
+              <div class="sigbox" id="sigBox"></div>
+              <div class="logo-actions" id="sigActions"></div>
+              <input type="file" id="sigInput" accept="image/png,image/jpeg,image/webp" hidden>
+            </div>
+          </div>
+          <div class="subhead">Contact line</div>
+          <div class="grid">
+            <div class="field"><label for="s_web">Website</label><input class="inp" id="s_web" data-scope="sign" data-k="website" inputmode="url"></div>
+            <div class="field half"><label for="s_phone">Phone</label><input class="inp" id="s_phone" data-scope="sign" data-k="phone" inputmode="tel"></div>
+            <div class="field half"><label for="s_email">Email</label><input class="inp" id="s_email" data-scope="sign" data-k="email" inputmode="email"></div>
+            <div class="field"><label for="s_verify">Verification link <span class="hint">Optional</span></label><input class="inp" id="s_verify" data-scope="sign" data-k="verify" inputmode="url" placeholder="https://yourcompany.com/verify"><p class="hint">Where a buyer can confirm this certificate is real. Shown as a QR code.</p></div>
+          </div>
+        </div>
+      </details>
+    </div>
+    <div class="save-note" id="saveNote">Your work is saved in this browser.</div>
+    <div class="panel-actions">
+      <button class="btn btn-primary" data-export="pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><path d="M4 19h16"/></svg>Download PDF</button>
+      <button class="btn btn-secondary" data-export="png">Download PNG</button>
+    </div>
+  </aside>
+
+  <section class="preview" aria-label="Live preview">
+    <div class="preview-bar">
+      <div class="preview-meta" id="pvMeta"></div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn btn-secondary btn-sm only-mobile" data-export="png">PNG</button>
+        <div class="seg" id="zoomSeg" style="width:132px"><button data-z="fit" class="on">Fit</button><button data-z="100">100%</button></div>
+      </div>
+    </div>
+    <div class="stage" id="stage"><div class="stage-inner" id="stageInner"></div></div>
+  </section>
+</main>
+
+<nav class="mobilebar" aria-label="View">
+  <div class="seg" id="viewSeg"><button data-view="edit" class="on">Edit</button><button data-view="preview">Preview</button></div>
+  <button class="btn btn-primary" data-export="pdf">Download PDF</button>
+</nav>
+
+<!-- Template picker -->
+<div class="modal" id="pickModal" role="dialog" aria-modal="true" aria-labelledby="pickTitle">
+  <div class="modal-card">
+    <div class="modal-head"><div><h2 id="pickTitle">Choose a certificate</h2><p>Each one removes a reason for buyers to wait. Your brand and sign-off carry over.</p></div><button class="xbtn" data-close aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-body" id="pickBody"></div>
+  </div>
+</div>
+
+<!-- Signature pad -->
+<div class="modal" id="padModal" role="dialog" aria-modal="true" aria-labelledby="padTitle">
+  <div class="modal-card sm">
+    <div class="modal-head"><div><h2 id="padTitle">Draw your signature</h2><p>Use your finger, a stylus or a mouse.</p></div><button class="xbtn" data-close aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-body"><div class="padwrap"><canvas id="pad"></canvas><div class="base"></div><div class="ph" id="padPh">Sign above the line</div></div></div>
+    <div class="modal-foot"><button class="btn btn-ghost" id="padClear">Clear</button><button class="btn btn-primary" id="padUse">Use signature</button></div>
+  </div>
+</div>
+
+<!-- Save template -->
+<div class="modal" id="saveModal" role="dialog" aria-modal="true" aria-labelledby="svTitle">
+  <div class="modal-card sm">
+    <div class="modal-head"><div><h2 id="svTitle">Save as template</h2><p>Saves this certificate's details, wording, brand, design and sign-off on this device so you can start from it next time.</p></div><button class="xbtn" data-close aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-body">
+      <div class="field"><label for="svName">Template name</label><input class="inp" id="svName" maxlength="80"><p class="hint" id="svHint"></p></div>
+      <label class="toggle" style="margin-top:8px"><span>Keep the customer name<small>Off is best for reuse. The name is cleared when you load it.</small></span><span class="switch"><input type="checkbox" id="svKeepRec"><span></span></span></label>
+      <p class="hint" style="margin-top:8px">Each time you load a template, it gets a new certificate number and dates reset to today.</p>
+    </div>
+    <div class="modal-foot"><button class="btn btn-secondary" data-close>Cancel</button><button class="btn btn-primary" id="svOk">Save template</button></div>
+  </div>
+</div>
+
+<!-- Template library -->
+<div class="modal" id="libModal" role="dialog" aria-modal="true" aria-labelledby="libTitle">
+  <div class="modal-card sm">
+    <div class="modal-head"><div><h2 id="libTitle">My templates</h2><p>Saved in this browser on this device only. Back them up to a file to keep them safe or move them to another device.</p></div><button class="xbtn" data-close aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="modal-body"><div id="libList"></div></div>
+    <div class="modal-foot lib-foot"><button class="btn btn-ghost btn-sm" id="libImport">Restore from file</button><button class="btn btn-secondary btn-sm" id="libExport">Back up to file</button></div>
+    <input type="file" id="libFile" accept="application/json,.json" hidden>
+  </div>
+</div>
+
+<!-- Confirm -->
+<div class="modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="cfTitle">
+  <div class="modal-card sm">
+    <div class="modal-head"><div><h2 id="cfTitle">Start over?</h2><p id="cfText">This clears your logo, colors and every certificate back to the sample content. Your saved templates are kept.</p></div></div>
+    <div class="modal-foot"><button class="btn btn-secondary" data-close>Cancel</button><button class="btn btn-primary" id="cfOk">Start over</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
